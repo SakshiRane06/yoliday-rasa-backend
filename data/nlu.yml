@@ -1,0 +1,58 @@
+# data/nlu.yml
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - hey
+      - hello
+      - hi
+      - good morning
+      - good evening
+
+  - intent: goodbye
+    examples: |
+      - bye
+      - goodbye
+      - see you later
+      - ciao
+
+  - intent: ask_weather
+    examples: |
+      - what's the weather like?
+      - can you tell me the weather forecast for [Paris](location)?
+      - I need the weather in [New York](location) for [next Tuesday](start_date)
+      - weather in [Tokyo](location)
+      - how is the weather in [London](location) from [June 1st](start_date) to [June 5th](end_date)?
+
+  - intent: recommend_packing
+    examples: |
+      - what should I pack?
+      - can you recommend what to pack for [Berlin](location)?
+      - what clothes should I take to [Sydney](location) on [December 20th](start_date)?
+      - packing list for [Rome](location)
+      - help me with packing for my trip to [Moscow](location)
+
+  - intent: faq/rasa
+    examples: |
+      - What is Rasa?
+      - tell me about rasa
+      - what's rasa
+
+  - intent: faq/builder
+    examples: |
+      - Who built you?
+      - who made you
+      - who is your creator
+
+  - intent: faq/planning
+    examples: |
+      - How can I plan my trip?
+      - help me plan my travel
+      - where do I start with planning a trip
+
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you human?
+      - am I talking to a bot?

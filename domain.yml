@@ -1,0 +1,78 @@
+# domain.yml (CLEANED UP AND CORRECTED VERSION)
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - ask_weather
+  - recommend_packing
+  - faq:
+      is_retrieval_intent: true
+  - bot_challenge
+  - nlu_fallback
+
+entities:
+  - location
+  - start_date
+  - end_date
+
+slots:
+  destination_city:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: location
+  start_date:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text # This will accept any text for the date
+  end_date:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text # This will accept any text for the date
+  weather_description:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+responses:
+  utter_greet:
+    - text: "Hello! I'm your Yoliday travel assistant. How can I help you plan your trip today? You can ask me for weather or packing recommendations."
+  utter_goodbye:
+    - text: "Goodbye! Have a great trip!"
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa and built for Yoliday."
+  utter_ask_destination_city:
+    - text: "Sure! What city are you traveling to?"
+  utter_ask_start_date:
+    - text: "What is your travel start date?"
+  utter_ask_end_date:
+    - text: "And what is your travel end date?"
+  utter_submit:
+    - text: "Great! Let me fetch that information for you."
+  utter_fallback:
+    - text: "Sorry, I didn't understand that. I can help with weather forecasts and packing tips. How can I assist?"
+  utter_faq/rasa:
+    - text: "Rasa is an open-source framework for building contextual AI assistants and chatbots."
+  utter_faq/builder:
+    - text: "I was built by a talented intern for the Yoliday Rasa Bot Development assessment."
+  utter_faq/planning:
+    - text: "You can start by telling me where and when you want to go! I can provide weather forecasts and packing recommendations to help you prepare."
+
+actions:
+  - action_get_weather
+  - action_recommend_packing
+  - action_reset_slots
+
+forms:
+  travel_form:
+    required_slots:
+      - destination_city
+      - start_date
+      - end_date

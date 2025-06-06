@@ -1,0 +1,6 @@
+# .gitignore
+models/
+.rasa/
+rasa_env/
+__pycache__/
+*.pyc

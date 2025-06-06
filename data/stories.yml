@@ -1,0 +1,57 @@
+# data/stories.yml
+version: "3.1"
+
+stories:
+  - story: Full trip planning path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: ask_weather
+        entities:
+          - location: "Paris"
+          - start_date: "tomorrow"
+          - end_date: "next Sunday"
+      - action: travel_form
+      - active_loop: travel_form
+      - slot_was_set:
+        - destination_city: "Paris"
+        - start_date: "tomorrow"
+        - end_date: "next Sunday"
+      - action: travel_form
+      - active_loop: null
+      - action: utter_submit
+      - action: action_get_weather
+      - action: action_recommend_packing
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - story: User provides info piece by piece
+    steps:
+      - intent: recommend_packing
+      - action: travel_form
+      - active_loop: travel_form
+      - action: utter_ask_destination_city
+      - intent: affirm # This is a placeholder, user would say the city name
+        entities:
+          - location: "London"
+      - slot_was_set:
+        - destination_city: "London"
+      - action: travel_form
+      - action: utter_ask_start_date
+      - intent: affirm # User would provide date
+        entities:
+          - start_date: "next week"
+      - slot_was_set:
+        - start_date: "next week"
+      - action: travel_form
+      - action: utter_ask_end_date
+      - intent: affirm # User would provide date
+        entities:
+          - end_date: "the week after"
+      - slot_was_set:
+        - end_date: "the week after"
+      - action: travel_form
+      - active_loop: null
+      - action: utter_submit
+      - action: action_get_weather
+      - action: action_recommend_packing

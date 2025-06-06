@@ -1,0 +1,56 @@
+# data/rules.yml
+version: "3.1"
+
+rules:
+  - rule: Say goodbye anytime the user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - rule: Say hello when user greets
+    steps:
+      - intent: greet
+      - action: utter_greet
+
+  - rule: Answer bot challenge
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+
+  - rule: Handle FAQs
+    steps:
+      - intent: faq
+      - action: utter_faq
+
+  - rule: Activate travel form
+    steps:
+      - intent: ask_weather
+      - action: travel_form
+      - active_loop: travel_form
+
+  - rule: Activate travel form for packing
+    steps:
+      - intent: recommend_packing
+      - action: travel_form
+      - active_loop: travel_form
+      
+  - rule: Submit form
+    condition:
+      - active_loop: travel_form
+    steps:
+      - action: travel_form
+      - active_loop: null
+      - action: utter_submit
+      - action: action_get_weather
+      - action: action_recommend_packing
+
+      # In data/rules.yml, at the very end
+  - rule: Reset slots after successful form
+    steps:
+      - action: action_recommend_packing
+      - action: action_reset_slots
+
+  - rule: Handle fallback correctly
+    steps:
+      - intent: nlu_fallback
+      - action: utter_fallback
