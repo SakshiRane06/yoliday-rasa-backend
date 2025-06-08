@@ -5,11 +5,15 @@ FROM rasa/rasa:3.6.10-full
 WORKDIR /app
 
 # Copy the essential files and folders from your repository into the container's working directory
-# Note: We copy credentials.yml, endpoints.yml etc. first.
-# This takes advantage of Docker's layer caching. If you only change your NLU data,
-# Docker won't need to re-install the python packages, making builds much faster.
 COPY ./requirements.txt ./
-RUN pip install -r requirements.txt
+
+# Fix: Use the --user flag to install packages in a user-writable directory.
+# This solves the "Permission denied" error.
+RUN pip install --user -r requirements.txt
+
+# Add the local user's binary path to the system's PATH.
+# This ensures that commands from the installed packages (like gunicorn) can be found.
+ENV PATH="/home/rasa/.local/bin:${PATH}"
 
 COPY . .
 
@@ -17,6 +21,4 @@ COPY . .
 EXPOSE 5055
 
 # The default command to run when the container starts.
-# We'll make this the action server command, as it's the most common.
-# We will override this for the main Rasa server in the Railway settings.
 CMD ["run", "actions"]
