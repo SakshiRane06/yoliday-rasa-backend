@@ -1,24 +1,24 @@
 # Use the official Rasa image as a base
 FROM rasa/rasa:3.6.10-full
 
-# Set the working directory inside the container
+# Set the working directory for our application
 WORKDIR /app
 
-# Copy the essential files and folders from your repository into the container's working directory
+# Temporarily switch to the root user to gain permissions for installation
+USER root
+
+# Copy only the requirements file first (this helps with Docker's build cache)
 COPY ./requirements.txt ./
 
-# Fix: Use the --user flag to install packages in a user-writable directory.
-# This solves the "Permission denied" error.
-RUN pip install --user -r requirements.txt
+# Now, as root, run pip install. It has permission to write to the main venv.
+RUN pip install -r requirements.txt
 
-# Add the local user's binary path to the system's PATH.
-# This ensures that commands from the installed packages (like gunicorn) can be found.
-ENV PATH="/home/rasa/.local/bin:${PATH}"
+# Copy the rest of your bot's code into the container.
+# The --chown flag ensures the 'rasa' user will own these files, not root.
+COPY --chown=rasa:rasa . .
 
-COPY . .
+# CRITICAL: Switch back to the non-privileged 'rasa' user for security before running the application.
+USER rasa
 
-# The port Rasa's action server runs on
-EXPOSE 5055
-
-# The default command to run when the container starts.
+# Set the default command, which will now be run as the 'rasa' user.
 CMD ["run", "actions"]
