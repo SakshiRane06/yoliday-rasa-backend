@@ -1,6 +1,6 @@
 // THIS IS THE MOST IMPORTANT PART
 // Replace the URL with your REAL rasa-server URL from Railway
-const RASA_API_ENDPOINT = "https://rasa-server-production-724c.up.railway.app/webhooks/rest/webhook";
+const RASA_API_ENDPOINT = "http://localhost:5005/webhooks/rest/webhook";
 
 const chatMessages = document.getElementById('chatbot-messages');
 const form = document.getElementById('chatbot-input-form');

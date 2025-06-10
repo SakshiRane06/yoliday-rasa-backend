@@ -1,7 +1,2 @@
-# endpoints.yml
 action_endpoint:
  url: "http://localhost:5055/webhook"
-
-# endpoints.yml
-action_endpoint:
- url: ${action_endpoint_url} # This variable will be provided by Render 
